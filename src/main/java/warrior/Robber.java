@@ -6,6 +6,11 @@ public class Robber extends Warrior {
 
     Random random = new Random();
 
+
+    public Robber() {
+
+    }
+
     public Robber(String name, int health, int armor, int damageMax, int damageMin) {
         super(name, health, armor, damageMax, damageMin);
     }

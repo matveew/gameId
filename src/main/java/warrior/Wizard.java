@@ -2,6 +2,8 @@ package warrior;
 
 public class Wizard extends Warrior {
 
+    public Wizard() {
+    }
 
     public Wizard(String name, int health, int armor, int damageMax, int damageMin) {
         super(name, health, armor, damageMax, damageMin);
@@ -20,7 +22,7 @@ public class Wizard extends Warrior {
     }
 
     public int specialAttack() {
-        return getDamageMax() * ( getName().length() / 2);
+        return getDamageMax() * (getName().length() / 2);
 
     }
 }
