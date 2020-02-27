@@ -9,5 +9,8 @@
         <module name="gameId" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gameId" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -7,9 +7,13 @@ public abstract class Warrior {
     private int armor;
     private int damageMin;
     private int damageMax;
+    private int level;
 
-    public Warrior(String name, int health, int armor, int damageMax, int damageMin){
+
+
+    public Warrior(String name, int health, int armor, int damageMax, int damageMin, int level){
         this.name = name;
+        this.level = level;
         this.health = health;
         this.armor = armor;
         this.damageMin = damageMin;
@@ -18,10 +22,24 @@ public abstract class Warrior {
 
     abstract public int attack();
 
-
+    abstract public int superAttack();
 
     abstract public int specialAttack();
 
+    abstract public void getAttack(int attack);
+
+    abstract public void upLevel();
+
+
+
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public String getName() {
         return name;
