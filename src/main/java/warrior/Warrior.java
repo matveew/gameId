@@ -1,14 +1,24 @@
 package warrior;
 
 public abstract class Warrior {
-
+    private int id;
     private String name;
     private int health;
     private int armor;
     private int damageMin;
     private int damageMax;
 
-    public Warrior(String name, int health, int armor, int damageMax, int damageMin){
+
+    public Warrior() {
+
+        this.name = "default";
+        this.health = 0;
+        this.armor = 0;
+        this.damageMin = 0;
+        this.damageMax = 0;
+    }
+
+    public Warrior(String name, int health, int armor, int damageMax, int damageMin) {
         this.name = name;
         this.health = health;
         this.armor = armor;
@@ -19,9 +29,16 @@ public abstract class Warrior {
     abstract public int attack();
 
 
-
     abstract public int specialAttack();
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -62,9 +79,6 @@ public abstract class Warrior {
     public void setDamageMax(int damageMax) {
         this.damageMax = damageMax;
     }
-
-
-
 
 
 }
