@@ -25,6 +25,9 @@ public class Bot extends TelegramLongPollingBot {
 
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
+        System.out.println(message.getFrom());
+        System.out.println(message.getFrom());
+
 
         if (message != null && message.hasText()) {
             switch (message.getText()) {

@@ -1,7 +1,7 @@
 package warrior;
 
 public abstract class Warrior {
-
+    private int id;
     private String name;
     private int health;
     private int armor;
@@ -31,6 +31,14 @@ public abstract class Warrior {
 
     abstract public int specialAttack();
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
