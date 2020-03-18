@@ -2,28 +2,23 @@ import fight.Arena;
 import warrior.Robber;
 import warrior.Wizard;
 
-import java.util.Scanner;
-
 public class Test {
+
 
 
     public static void main(String[] args) {
 
 
-        while (true) {
 
-            int a = (int) (Math.random() * 10);
-            int b = (int) (Math.random() * 10);
+        Robber robert = new Robber("Robert", 100, 1, 10, 7, 1);
 
-            System.out.println(a + " + " + b + " = " + " ?");
-            int answer = new Scanner(System.in).nextInt();
-            if (answer == (a + b)) {
-                System.out.println("Right!");
-            } else {
-                System.out.println("Wrong!  answer: " + (a + b));
-            }
-        }
+        Robber conan = new Robber("Conan", 150, 2, 7, 5, 1);
 
+        Wizard gandalf = new Wizard("Gandalf", 80, 2, 11, 8, 1);
+
+        Arena arena = new Arena();
+
+        arena.deathBattle(robert, conan);
 
     }
 }

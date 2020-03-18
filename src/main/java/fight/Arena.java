@@ -7,26 +7,28 @@ public class Arena {
 
     public void deathBattle(Warrior warrior1, Warrior warrior2) {
 
+        System.out.println(warrior1.getName() + " " + warrior1.getLevel());
+        System.out.println(warrior2.getName() + " " + warrior2.getLevel());
         boolean isFight = true;
+
+
         while (isFight) {
 
-            int damage = warrior1.attack();
-            System.out.println("warrior1.attack() - " + damage);
-            warrior2.setHealth(warrior2.getHealth() - damage);
+            warrior2.getAttack(warrior1.attack());
             System.out.println("warrior2.setHealth - " + warrior2.getHealth());
 
             if (warrior2.getHealth() <= 0) {
-                System.out.println("warrior " + warrior1.getName() + " won!");
+                warrior1.upLevel();
+                System.out.println("warrior1 " + warrior1.getName() + " won!");
                 return;
             }
 
-            damage = warrior2.attack();
-            System.out.println("warrior2.attack() - " + damage);
+            warrior1.getAttack(warrior2.attack());
 
-            warrior1.setHealth(warrior1.getHealth() - damage);
             System.out.println("warrior1.setHealth - " + warrior1.getHealth());
             if (warrior1.getHealth() <= 0) {
-                System.out.println("warrior " + warrior2.getName() + " won!");
+                warrior2.upLevel();
+                System.out.println("warrior2 " + warrior2.getName() + " won!");
                 return;
             }
 
