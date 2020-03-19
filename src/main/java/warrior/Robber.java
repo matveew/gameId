@@ -6,8 +6,8 @@ public class Robber extends Warrior {
 
     Random random = new Random();
 
-    public Robber(String name, int health, int armor, int damageMax, int damageMin, int level) {
-        super(name, health, armor, damageMax, damageMin, level);
+    public Robber(String name, int health, int armor, int damageMax, int damageMin, int level, int experience) {
+        super(name, health, armor, damageMax, damageMin, level, experience);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Robber extends Warrior {
     }
 
     public void upLevel() {
-         setLevel(getLevel() + 1);
+
     }
 
 

@@ -3,8 +3,8 @@ package warrior;
 public class Wizard extends Warrior {
 
 
-    public Wizard(String name, int health, int armor, int damageMax, int damageMin, int level) {
-        super(name, health, armor, damageMax, damageMin, level);
+    public Wizard(String name, int health, int armor, int damageMax, int damageMin, int level, int experience) {
+        super(name, health, armor, damageMax, damageMin, level, experience);
     }
 
 

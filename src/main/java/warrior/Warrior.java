@@ -8,16 +8,17 @@ public abstract class Warrior {
     private int damageMin;
     private int damageMax;
     private int level;
+    private int experience;
 
 
-
-    public Warrior(String name, int health, int armor, int damageMax, int damageMin, int level){
+    public Warrior(String name, int health, int armor, int damageMax, int damageMin, int level, int experience){
         this.name = name;
         this.level = level;
         this.health = health;
         this.armor = armor;
         this.damageMin = damageMin;
         this.damageMax = damageMax;
+        this.experience = experience;
     }
 
     abstract public int attack();
@@ -28,7 +29,9 @@ public abstract class Warrior {
 
     abstract public void getAttack(int attack);
 
-    abstract public void upLevel();
+    public void upLevel(){
+
+    }
 
 
 
@@ -83,7 +86,14 @@ public abstract class Warrior {
         this.damageMax = damageMax;
     }
 
+    public int getExperience() {
 
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
 
 
 

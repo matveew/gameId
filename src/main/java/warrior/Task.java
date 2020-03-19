@@ -35,24 +35,21 @@ public class Task {
     }
 
 
-
-
-    public String getTaskLevel2 (){
+    public String getTaskLevel2() {
         if (Math.random() > 0.5) {
 
             answer = a * b;
 
             return a + " * " + b + " = ?";
 
-        }
-        else {
+        } else {
             if (b > a) {
                 int c;
                 c = b;
                 b = a;
                 a = c;
             }
-            if ( a % b != 0  )
+            if (a % b != 0)
 
                 a *= b;
 
@@ -64,8 +61,7 @@ public class Task {
 
     }
 
-    public String getTaskLevel3(){
-
+    public String getTaskLevel3() {
 
 
         if (Math.random() < 0.3) {
@@ -75,16 +71,16 @@ public class Task {
             return a + " * " + b + " * " + c + " = ?";
 
         }
-        if(Math.random() < 0.6){
-                a *= c;
-                b *= c;
+        if (Math.random() < 0.6) {
+            a *= c;
+            b *= c;
 
             answer = a * b / c;
 
             return a + " * " + b + " / " + c + " = ?";
         }
 
-        if ( a % b != 0  )
+        if (a % b != 0)
             a *= b;
 
         return a + " / " + b + " * " + c + " = ?";
@@ -97,5 +93,26 @@ public class Task {
         return false;
     }
 
+    public int upExperience(int differenceLevel) {
+
+        switch (differenceLevel) {
+            case (1):
+                return 1;
+
+            case (2):
+                return 2;
+
+            case (3):
+                return 3;
+
+                default:
+                    return 0;
+
+
+        }
+    }
+
 
 }
+
+
