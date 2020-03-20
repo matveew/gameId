@@ -31,6 +31,9 @@ public abstract class Warrior {
 
     public void upLevel(){
 
+
+
+
     }
 
 

@@ -10,11 +10,11 @@ public class Test {
 
 
 
-        Robber robert = new Robber("Robert", 100, 1, 10, 7, 1);
+        Robber robert = new Robber("Robert", 100, 1, 10, 7, 1, 0);
 
-        Robber conan = new Robber("Conan", 150, 2, 7, 5, 1);
+        Robber conan = new Robber("Conan", 150, 2, 7, 5, 1, 0);
 
-        Wizard gandalf = new Wizard("Gandalf", 80, 2, 11, 8, 1);
+        Wizard gandalf = new Wizard("Gandalf", 80, 2, 11, 8, 1, 0);
 
         Arena arena = new Arena();
 
