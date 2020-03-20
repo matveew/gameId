@@ -1,4 +1,4 @@
-package warrior;
+package warrior.Level;
 
 import java.util.Scanner;
 
