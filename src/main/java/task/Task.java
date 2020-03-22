@@ -1,9 +1,8 @@
-package warrior;
+package task;
 
 import java.util.Scanner;
 
 public class Task {
-    Scanner scanner = new Scanner(System.in);
 
     int a = (int) (Math.random() * 10);
     int b = (int) (Math.random() * 10);

@@ -6,7 +6,9 @@ import warrior.Wizard;
 
 public class Create {
 
-  public   static Warrior newWarrior(String type) {
+
+
+    public static Warrior newWarrior(String type) {
 
         switch (type) {
             case "wizard":

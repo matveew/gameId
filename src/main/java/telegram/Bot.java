@@ -1,6 +1,7 @@
 package telegram;
 
 import createWarrior.Create;
+import database.GameDB;
 import fight.Arena;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import telegram.registration.CreateWarrior;
 import warrior.Robber;
 import warrior.Warrior;
 import warrior.Wizard;
@@ -21,47 +23,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bot extends TelegramLongPollingBot {
-    Warrior warrior;
+    CreateWarrior createWarrior = null;
 
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-        System.out.println(message.getFrom());
-        System.out.println(message.getFrom());
 
 
         if (message != null && message.hasText()) {
             switch (message.getText()) {
-                case "/help":
-                    sendMsg(message, "How can i help you?");
-                    break;
 
-                case "/settings":
-                    sendMsg(message, "What will we configure?");
-                    break;
 
-                case "/start":
-                    sendMsg(message, "What type of warrior you will be? Yoy can be wizard or robber.");
+                case "/create":
+                    createWarrior = new CreateWarrior();
+                    createWarrior.setUser(update.getMessage().getFrom());
+                    sendMsg(message, "Select a type(wizard, robber). Example:\n" +
+                            "/type wizard");
                     break;
 
                 case "/name":
-                    sendMsg(message, "Your name is " + message.getText().replace("/name ", ""));
-                    warrior.setName(message.getText().replace("/name ", ""));
+                    createWarrior.setNameWarrior(message.getText().split(" ")[1]);
+                    createWarrior.save();
+                    sendMsg(message, "Congratulations, you have created:" +
+                            GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
                     break;
 
                 case "/type":
-                    sendMsg(message, "Your type is " + message.getText().replace("/type ", ""));
-                    if (message.getText().replace("/type ", "").equals("robber"))
-                        warrior = new Robber();
-                    if (message.getText().replace("/type ", "").equals("wizard"))
-                        warrior = new Wizard();
+                    createWarrior.setTypeWarrior(message.getText().split(" ")[1]);
+                    sendMsg(message, "Create a character name. Example:\n" +
+                            "/name stalin");
                     break;
 
                 case "/go to arena":
-                    sendMsg(message, "You will fight with wizard");
-                    new Arena().deathBattle(warrior, new Wizard());
+                    sendMsg(message, "Arena under construction");
+                    //      new Arena().deathBattle(warrior, new Wizard());
                     break;
 
                 default:
+                    if (message.getText().startsWith("/type")) {
+                        createWarrior.setTypeWarrior(message.getText().split(" ")[1]);
+                        sendMsg(message, "Create a character name. Example:\n" +
+                                "/name stalin");
+                        break;
+                    }
+
+                    if (message.getText().startsWith("/name")) {
+                        createWarrior.setNameWarrior(message.getText().split(" ")[1]);
+                        createWarrior.save();
+                        sendMsg(message, "Congratulations, you have created:" +
+                                GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
+                        break;
+                    }
+
                     System.out.println(message.getFrom());
                     break;
 
@@ -70,15 +82,22 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-    void commandCreateWarrior(String message) {
+    public void registration(Update update) {
+        Message message = update.getMessage();
+        int i = 0;
 
-        if (message.startsWith("/name")) {
+
+        switch (message.getText()) {
+            case "/help":
+                sendMsg(message, "How can i help you?");
+                break;
+
+
+            default:
+                System.out.println(message.getFrom());
+                break;
+
         }
-
-        if (message.startsWith("/type")) {
-        }
-
-
     }
 
 
