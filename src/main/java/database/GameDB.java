@@ -5,38 +5,40 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.google.gson.Gson;
-import warrior.Warrior;
+import org.telegram.telegrambots.meta.api.objects.User;
+import warrior.*;
+
+import javax.print.Doc;
+
 
 public class GameDB {
 
     static ConnectionDAO connectionDAO;
 
 
-    public void createNewUser(User user) {
+    static public void saveNewWarrior(Warrior warrior) {
         MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
-        Document newUser = convertToDocument(user);
-        collection.insertOne(newUser);
+        Document newWarrior = convertToDocument(warrior);
+        collection.insertOne(newWarrior);
     }
 
-    public Warrior getWarrior(String id) {
+    static public Warrior getWarrior(int id) {
         MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
         Document filter = new Document("id", id);
         Document document = collection.find(filter).first();
-        User user = convertToUser(document);
-        return user.getWarrior();
+        Warrior warrior = convertToWarrior(document);
+        return warrior;
     }
 
-    public void updateWarrior(Warrior warrior) {
+    static public void updateWarrior(Warrior warrior) {
         MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
         Document filter = new Document("id", warrior.getId());
         Document document = collection.find(filter).first();
-        User user = convertToUser(document);
-        user.setWarrior(warrior);
-        Document updated = convertToDocument(user);
+        Warrior newWarrior = convertToWarrior(document);
+        Document updated = convertToDocument(newWarrior);
         collection.updateOne(filter, new Document("$set", updated));
         closeDatabase();
     }
-
 
     static private void closeDatabase() {
         connectionDAO.closeDatabase();
@@ -50,18 +52,37 @@ public class GameDB {
 
     }
 
-    static private User convertToUser(Document document) {
+    static private Warrior convertToWarrior(Document document) {
+
         Gson gson = new Gson();
-        return gson.fromJson(document.toJson(), User.class);
+
+        if (document.getString("type").equals("Wizard"))
+            return gson.fromJson(document.toJson(), Wizard.class);
+
+        if (document.getString("type").equals("Robber"))
+            return gson.fromJson(document.toJson(), Robber.class);
+
+
+        return null;
 
     }
 
-    static private Document convertToDocument(User user) {
+    static private Document convertToDocument(Warrior warrior) {
         Gson gson = new Gson();
-        String json = gson.toJson(user);
-        return new Document(Document.parse(json));
-
+        String json = gson.toJson(warrior);
+        Document document = new Document(Document.parse(json));
+        document.append("type", warrior.getClass().getName().replace("warrior.", ""));
+        return document;
     }
 
+
+    public static void main(String[] args) {
+
+
+        Warrior warrior1 = new Wizard();
+        saveNewWarrior(warrior1);
+
+
+    }
 
 }

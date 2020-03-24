@@ -1,17 +1,27 @@
 package warrior;
 
+import org.telegram.telegrambots.meta.api.objects.User;
+
 public abstract class Warrior {
 
+    private int id;
     private String name;
     private int health;
     private int armor;
     private int damageMin;
     private int damageMax;
     private int level;
+    private User user;
+    public Warrior() {
+        this.name = "";
+        this.level = 1;
+        this.health = 1;
+        this.armor = 1;
+        this.damageMin = 1;
+        this.damageMax = 1;
+    }
 
-
-
-    public Warrior(String name, int health, int armor, int damageMax, int damageMin, int level){
+    public Warrior(String name, int health, int armor, int damageMax, int damageMin, int level) {
         this.name = name;
         this.level = level;
         this.health = health;
@@ -30,10 +40,13 @@ public abstract class Warrior {
 
     abstract public void upLevel();
 
+    public int getId() {
+        return id;
+    }
 
-
-
-
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getLevel() {
         return level;
@@ -83,8 +96,11 @@ public abstract class Warrior {
         this.damageMax = damageMax;
     }
 
+    public User getUser() {
+        return user;
+    }
 
-
-
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
