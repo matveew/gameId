@@ -92,6 +92,12 @@ public class Bot extends TelegramLongPollingBot {
                     break;
             }
         }
+
+
+
+
+
+
     }
 
 
@@ -160,16 +166,11 @@ public class Bot extends TelegramLongPollingBot {
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
         try {
             telegramBotsApi.registerBot(new Bot());
-
-
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

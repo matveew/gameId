@@ -2,23 +2,31 @@ package scanerio.lvl_1;
 
 import scanerio.Interaction;
 import scanerio.Position;
+import scanerio.lvl_1.lvl_2.Registration;
+import telegram.Telegram;
 
 public class Main implements Interaction {
-    int level = 1;
+    private final int LEVEL = 1;
 
     public void play() {
 
 
-
-        switch (Position.getPositionByLevel(level)) {
+        switch (Position.getPositionByLevel(LEVEL)) {
             case "fight":
                 fight();
                 break;
+
             case "experience":
                 experience();
                 break;
+
+            case "registration":
+                registration();
+                break;
+
+
             default:
-                loadButtons("fight", "experience");
+                Telegram.loadButtons("fight", "experience");
                 break;
         }
 
@@ -28,15 +36,14 @@ public class Main implements Interaction {
 
     void fight() {
 
-
     }
 
     void experience() {
     }
 
-
-    void loadButtons(String... buttons) {
-
+    void registration() {
+        new Registration().play();
     }
+
 
 }

@@ -12,6 +12,8 @@ public abstract class Warrior {
     private int damageMax;
     private int level;
     private User user;
+
+
     public Warrior() {
         this.name = "";
         this.level = 1;
@@ -96,11 +98,16 @@ public abstract class Warrior {
         this.damageMax = damageMax;
     }
 
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getType() {
+        return this.getClass().getName().toLowerCase();
     }
 }

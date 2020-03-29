@@ -1,17 +1,26 @@
 package scanerio;
 
+import scanerio.lvl_1.Main;
+
 public class Position {
-    static private String position ="play";
+    static private String position = "play";
 
 
-    static public void in(String point) {
+    static public void goAhead(String point) {
         position = position + "." + point;
     }
 
-    static public void out() {
+    static public void goBack() {
         position = position.substring(0, position.lastIndexOf("."));
     }
 
+    static public void action() {
+        new Main().play();
+    }
+
+    static public void exit() {
+        position = "play";
+    }
 
     static String getPosition() {
         return position.substring(position.lastIndexOf(".") + 1);
