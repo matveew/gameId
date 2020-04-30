@@ -32,4 +32,18 @@ public class Name implements Interaction {
 
 
     }
+
+
+    public static void main(String[] args) {
+
+
+        Warrior warrior = WarriorDao.getWarrior(160450965);
+
+
+        warrior.setName("someName");
+        WarriorDao.saveNewWarrior(warrior);
+
+
+    }
+
 }

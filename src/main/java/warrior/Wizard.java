@@ -2,6 +2,8 @@ package warrior;
 
 public class Wizard extends Warrior {
 
+
+
     public Wizard() {
     }
 
