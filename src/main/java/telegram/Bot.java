@@ -37,14 +37,15 @@ public class Bot extends TelegramLongPollingBot {
                     createWarrior = new CreateWarrior();
                     createWarrior.setUser(update.getMessage().getFrom());
                     sendMsg(message, "Select a type(wizard, robber). Example:\n" +
-                            "/type wizard");
+                            "/type wizard","/type wizard","/type robber");
                     break;
 
                 case "/name":
                     createWarrior.setNameWarrior(message.getText().split(" ")[1]);
                     createWarrior.save();
                     sendMsg(message, "Congratulations, you have created:" +
-                            GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
+                            GameDB.getWarrior(update.getMessage().getFrom().getId()).getName()
+                    ,"Random");
                     break;
 
                 case "/type":
@@ -120,33 +121,34 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-    public void setButtons(SendMessage sendMessage) {
+    public void setButtons(SendMessage sendMessage,String ...buttomsText) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setSelective(false);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
 
-        keyboardFirstRow.add(new KeyboardButton("/help"));
-        keyboardFirstRow.add(new KeyboardButton("/settings"));
+        for(int i = 0; i < buttomsText.length; i++){
+            keyboardFirstRow.add(new KeyboardButton(buttomsText[i]));
+        }
+
         keyboardRowList.add(keyboardFirstRow);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
 
     }
 
 
-    private void sendMsg(Message message, String text) {
+    private void sendMsg(Message message, String text,String ...buttomsTextInSendMsg) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(text);
 
         try {
-            //    setButtons(sendMessage);
+            setButtons(sendMessage,buttomsTextInSendMsg);
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();

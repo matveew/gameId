@@ -33,9 +33,6 @@ public class Task {
 
     }
 
-
-
-
     public String getTaskLevel2 (){
         if (Math.random() > 0.5) {
 
@@ -62,6 +59,7 @@ public class Task {
         }
 
     }
+
 
     public String getTaskLevel3(){
 
