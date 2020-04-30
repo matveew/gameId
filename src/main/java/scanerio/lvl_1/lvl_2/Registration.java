@@ -1,5 +1,6 @@
 package scanerio.lvl_1.lvl_2;
 
+import database.PositionDao;
 import scanerio.Interaction;
 import scanerio.Position;
 import scanerio.lvl_1.lvl_2.lvl_3.Name;
@@ -11,34 +12,33 @@ public class Registration implements Interaction {
 
 
     @Override
-    public void play() {
+    public void play(Position position) {
 
 
-        switch (Position.getPositionByLevel(LEVEL)) {
+        switch (position.getPositionByLevel(LEVEL)) {
             case "type":
-                type();
+                type(position);
                 break;
 
 
             case "name":
-                name();
-
-
+                name(position);
                 break;
 
             default:
-                Telegram.loadButtons("Save your type", "Back");
+                Telegram.sendButtonsMessage(position, "Save your type", "Back", "Choose an option:");
+                PositionDao.setPosition(position);
                 break;
         }
     }
 
-    private void type() {
-        new Type().play();
+    private void type(Position position) {
+        new Type().play(position);
 
     }
 
-    private void name() {
-        new Name().play();
+    private void name(Position position) {
+        new Name().play(position);
     }
 
 }

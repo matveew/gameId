@@ -11,19 +11,17 @@ import warrior.*;
 import javax.print.Doc;
 
 
-public class GameDB {
-
-    static ConnectionDAO connectionDAO;
+public class WarriorDao {
 
 
     static public void saveNewWarrior(Warrior warrior) {
-        MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
+        MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Warrior");
         Document newWarrior = convertToDocument(warrior);
         collection.insertOne(newWarrior);
     }
 
     static public Warrior getWarrior(int id) {
-        MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
+        MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Warrior");
         Document filter = new Document("id", id);
         Document document = collection.find(filter).first();
         Warrior warrior = convertToWarrior(document);
@@ -31,28 +29,20 @@ public class GameDB {
     }
 
     static public void updateWarrior(Warrior warrior) {
-        MongoCollection<Document> collection = getMongoDatabase().getCollection("Game");
+        MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Warrior");
         Document filter = new Document("id", warrior.getId());
         Document document = collection.find(filter).first();
         Warrior newWarrior = convertToWarrior(document);
         Document updated = convertToDocument(newWarrior);
         collection.updateOne(filter, new Document("$set", updated));
-        closeDatabase();
-    }
-
-    static private void closeDatabase() {
-        connectionDAO.closeDatabase();
-    }
-
-    static private MongoDatabase getMongoDatabase() {
-        if (connectionDAO != null)
-            return connectionDAO.getMongoDatabase();
-        connectionDAO = new ConnectionDAO();
-        return connectionDAO.getMongoDatabase();
-
+        ConnectionDAO.closeDatabase();
     }
 
     static private Warrior convertToWarrior(Document document) {
+
+
+        if (document == null)
+            return null;
 
         Gson gson = new Gson();
 
@@ -74,7 +64,6 @@ public class GameDB {
         document.append("type", warrior.getClass().getName().replace("warrior.", ""));
         return document;
     }
-
 
     public static void main(String[] args) {
 

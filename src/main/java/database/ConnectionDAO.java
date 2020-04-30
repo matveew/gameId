@@ -15,7 +15,14 @@ public class ConnectionDAO {
     static private MongoCredential credential;
     static private MongoDatabase database = null;
 
-    public synchronized MongoDatabase getMongoDatabase() {
+
+    static public void closeDatabase() {
+        // mongoClient.close();
+    }
+
+    static public MongoDatabase getMongoDatabase() {
+
+
         try {
 
             if (database != null) {
@@ -27,15 +34,12 @@ public class ConnectionDAO {
             database = mongoClient.getDatabase("Game");
 
 
+            return database;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return database;
-    }
-
-    public void closeDatabase() {
-        //mongoClient.close();
-
+        return null;
     }
 
 
