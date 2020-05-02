@@ -3,7 +3,7 @@ package scanerio;
 public interface Interaction {
 
 
-    public void play();
+    public void play(Position position);
 
 
 }

@@ -8,10 +8,10 @@ public class Fight implements Interaction {
 
 
     @Override
-    public void play() {
+    public void play(Position position) {
 
 
-        switch (Position.getPositionByLevel(LEVEL)) {
+        switch (position.getPositionByLevel(LEVEL)) {
             case "findAdversary":
                 break;
 

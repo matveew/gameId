@@ -1,8 +1,7 @@
 package telegram;
 
-import createWarrior.Create;
-import database.GameDB;
-import fight.Arena;
+import database.PositionDao;
+import global.Global;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -13,147 +12,91 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import telegram.registration.CreateWarrior;
-import warrior.Robber;
-import warrior.Warrior;
-import warrior.Wizard;
+import scanerio.Position;
+import scanerio.lvl_1.Main;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Bot extends TelegramLongPollingBot {
-    CreateWarrior createWarrior = null;
+
 
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
-
+        System.out.println("message: " + update.getMessage().getText());
 
         if (message != null && message.hasText()) {
-            switch (message.getText()) {
 
 
-                case "/create":
-                    createWarrior = new CreateWarrior();
-                    createWarrior.setUser(update.getMessage().getFrom());
-                    sendMsg(message, "Select a type(wizard, robber). Example:\n" +
-                            "/type wizard","/type wizard","/type robber");
-                    break;
+            Position position = PositionDao.getPosition(message.getChatId().intValue());
+            if (!position.getPosition().equals("registration"))
+                position.goAhead(message.getText());
 
-                case "/name":
-                    createWarrior.setNameWarrior(message.getText().split(" ")[1]);
-                    createWarrior.save();
-                    sendMsg(message, "Congratulations, you have created:" +
-                            GameDB.getWarrior(update.getMessage().getFrom().getId()).getName()
-                    ,"Random");
-                    break;
-
-                case "/type":
-                    createWarrior.setTypeWarrior(message.getText().split(" ")[1]);
-                    sendMsg(message, "Create a character name. Example:\n" +
-                            "/name stalin");
-                    break;
-
-                case "/go to arena":
-                    sendMsg(message, "Arena under construction");
-                    //      new Arena().deathBattle(warrior, new Wizard());
-                    break;
-
-                default:
-                    if (message.getText().startsWith("/type")) {
-                        createWarrior.setTypeWarrior(message.getText().split(" ")[1]);
-                        sendMsg(message, "Create a character name. Example:\n" +
-                                "/name stalin");
-                        break;
-                    }
-
-                    if (message.getText().startsWith("/name")) {
-                        createWarrior.setNameWarrior(message.getText().split(" ")[1]);
-                        createWarrior.save();
-                        sendMsg(message, "Congratulations, your warrior: " + GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
-                        break;
-                    }
-
-                    if (message.getText().startsWith("/name")) {
-                        createWarrior.setNameWarrior(message.getText().split(" ")[1]);
-                        createWarrior.save();
-                        sendMsg(message, "Congratulations, your warrior: " + GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
-                        break;
-                    }
-
-                    if (message.getText().startsWith("/name")) {
-                        createWarrior.setNameWarrior(message.getText().split(" ")[1]);
-                        createWarrior.save();
-                        sendMsg(message, "Congratulations, your warrior: " + GameDB.getWarrior(update.getMessage().getFrom().getId()).getName());
-                        break;
-                    }
-
-
-                    System.out.println(message.getFrom());
-                    break;
-            }
+            new Main().play(position);
         }
-
-
-
-
 
 
     }
 
 
-    public void registration(Update update) {
-        Message message = update.getMessage();
-        int i = 0;
-
-
-        switch (message.getText()) {
-            case "/help":
-                sendMsg(message, "How can i help you?");
-                break;
-
-
-            default:
-                System.out.println(message.getFrom());
-                break;
-
-        }
-    }
-
-
-    public void setButtons(SendMessage sendMessage,String ...buttomsText) {
+    public void setButtons(SendMessage sendMessage, String... buttons) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(false);
+        replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
-
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-
-        for(int i = 0; i < buttomsText.length; i++){
-            keyboardFirstRow.add(new KeyboardButton(buttomsText[i]));
-        }
+        for (String button : buttons)
+            keyboardFirstRow.add(new KeyboardButton(button));
 
         keyboardRowList.add(keyboardFirstRow);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-
     }
 
 
-    private void sendMsg(Message message, String text,String ...buttomsTextInSendMsg) {
+    public void sendButtonsMessage(String[] buttons, String text, int id) {
+
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(message.getChatId().toString());
+        sendMessage.setChatId(id + "");
         sendMessage.setText(text);
 
+
         try {
-            setButtons(sendMessage,buttomsTextInSendMsg);
+            setButtons(sendMessage, buttons);
+
+            System.out.println("message: " + sendMessage.getText());
+
+
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
 
+    public void sendMessage(String text, int id) {
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(id + "");
+        sendMessage.setText(text);
+
+
+        try {
+
+
+            System.out.println("message: " + sendMessage.getText());
+            String[] s = new String[0];
+            setButtons(sendMessage, s);
+
+
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -166,14 +109,27 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+
         try {
-            telegramBotsApi.registerBot(new Bot());
-        } catch (TelegramApiRequestException e) {
+
+            ApiContextInitializer.init();
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+            Bot bot = new Bot();
+            telegramBotsApi.registerBot(bot);
+            Telegram.bot = bot;
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
+
+    public List<String> getPositionWithValue() {
+        List<String> positions = new ArrayList<>();
+        positions.add("registration.name");
+        return positions;
+    }
 
 }

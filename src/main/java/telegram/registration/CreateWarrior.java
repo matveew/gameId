@@ -1,7 +1,7 @@
 package telegram.registration;
 
 import createWarrior.Create;
-import database.GameDB;
+import database.WarriorDao;
 
 import org.telegram.telegrambots.meta.api.objects.User;
 import warrior.Warrior;
@@ -25,7 +25,7 @@ public class CreateWarrior {
     }
 
     public void save() {
-        GameDB.saveNewWarrior(warrior);
+        WarriorDao.saveNewWarrior(warrior);
     }
 
 

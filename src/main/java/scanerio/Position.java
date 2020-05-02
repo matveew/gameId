@@ -1,36 +1,61 @@
 package scanerio;
 
+
+import database.PositionDao;
 import scanerio.lvl_1.Main;
 
 public class Position {
-    static private String position = "play";
+    private int id;
+    private String position;
 
 
-    static public void goAhead(String point) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void goAhead(String point) {
         position = position + "." + point;
+        PositionDao.setPosition(id, position);
     }
 
-    static public void goBack() {
+    public void goBack() {
         position = position.substring(0, position.lastIndexOf("."));
+        PositionDao.setPosition(id, position);
+
     }
 
-    static public void action() {
-        new Main().play();
+    public void action() {
+        new Main().play(this);
     }
 
-    static public void exit() {
+    public void exit() {
         position = "play";
+        PositionDao.setPosition(id, position);
+
     }
 
-    static String getPosition() {
-        return position.substring(position.lastIndexOf(".") + 1);
+    public String getPosition() {
+        return position;
     }
 
-    static int getCountOfLevel() {
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    int getCountOfLevel() {
         return Integer.parseInt(position.substring(position.split("\\.").length));
     }
 
-    static public String getPositionByLevel(int lvl) {
+    public String getPositionByLevel(int lvl) {
+
+        if (position.split("\\.").length < lvl) {
+            return "";
+        }
+
         return position.split("\\.")[lvl - 1];
     }
 
