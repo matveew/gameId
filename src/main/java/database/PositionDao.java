@@ -52,15 +52,10 @@ public class PositionDao {
 
     }
 
-
     static public void setPosition(Position position) {
         setPosition(position.getId(), position.getPosition());
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(getPosition(160450965).getPosition());
-    }
 
 
 }

@@ -46,6 +46,7 @@ public class WarriorDao {
 
         Gson gson = new Gson();
 
+
         if (document.getString("type").equals("Wizard"))
             return gson.fromJson(document.toJson(), Wizard.class);
 
@@ -59,8 +60,12 @@ public class WarriorDao {
 
     static private Document convertToDocument(Warrior warrior) {
         Gson gson = new Gson();
+
         String json = gson.toJson(warrior);
+
+
         Document document = new Document(Document.parse(json));
+
         document.append("type", warrior.getClass().getName().replace("warrior.", ""));
         return document;
     }
