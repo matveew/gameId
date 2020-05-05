@@ -1,6 +1,7 @@
 package telegram;
 
 import database.PositionDao;
+import database.UserDao;
 import global.Global;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -29,6 +30,8 @@ public class Bot extends TelegramLongPollingBot {
 
 
         User user = message.getForwardFrom();
+
+        UserDao.saveNewUser(user);
 
         System.out.println("message: " + update.getMessage().getText());
 
