@@ -28,15 +28,13 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
 
-
-        User user = message.getForwardFrom();
-
-        UserDao.saveNewUser(user);
+        User user = message.getFrom();
 
         System.out.println("message: " + update.getMessage().getText());
 
         if (message != null && message.hasText()) {
 
+            UserDao.saveNewUser(user);
 
             Position position = PositionDao.getPosition(message.getChatId().intValue());
             if (!position.getPosition().equals("registration"))

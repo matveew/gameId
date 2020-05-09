@@ -1,10 +1,12 @@
 package scanerio.lvl_1;
 
 import database.PositionDao;
+import database.UserDao;
 import scanerio.Interaction;
 import scanerio.Position;
 import scanerio.lvl_1.lvl_2.Registration;
 import telegram.Telegram;
+
 
 public class Main implements Interaction {
     private final int LEVEL = 1;
