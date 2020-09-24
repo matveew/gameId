@@ -16,13 +16,12 @@ public class Name implements Interaction {
 
 
         if (!position.getPositionByLevel(LEVEL).isEmpty()) {
-
+            System.out.println("TestWriteLine");
             Warrior warrior = WarriorDao.getWarrior(position.getId());
             warrior.setName(position.getPositionByLevel(LEVEL));
             WarriorDao.saveNewWarrior(warrior);
             Telegram.sendButtonsMessage(position, "You created " + warrior.getType() + " - " + warrior.getName());
             position.exit();
-            PositionDao.setPosition(position);
             position.action();
 
 
@@ -34,16 +33,6 @@ public class Name implements Interaction {
     }
 
 
-    public static void main(String[] args) {
 
-
-        Warrior warrior = WarriorDao.getWarrior(160450965);
-
-
-        warrior.setName("someName");
-        WarriorDao.saveNewWarrior(warrior);
-
-
-    }
 
 }

@@ -7,6 +7,7 @@ import scanerio.lvl_1.Main;
 public class Position {
     private int id;
     private String position;
+    private int idPositionWarriorAdversery;
 
 
     public int getId() {
@@ -18,13 +19,19 @@ public class Position {
     }
 
     public void goAhead(String point) {
-        position = position + "." + point;
-        PositionDao.setPosition(id, position);
+
+        if (position.isEmpty()) {
+            position = point;
+            PositionDao.setPosition(id, position,idPositionWarriorAdversery);
+        } else {
+            position = position + "." + point;
+            PositionDao.setPosition(id, position,idPositionWarriorAdversery);
+        }
     }
 
     public void goBack() {
         position = position.substring(0, position.lastIndexOf("."));
-        PositionDao.setPosition(id, position);
+        PositionDao.setPosition(id, position,idPositionWarriorAdversery);
 
     }
 
@@ -33,18 +40,34 @@ public class Position {
     }
 
     public void exit() {
-        position = "play";
-        PositionDao.setPosition(id, position);
+        position = "";
+        PositionDao.setPosition(id, position,idPositionWarriorAdversery);
+    }
 
+    public void exitIdPositionWarriorAdversery(){
+        idPositionWarriorAdversery = 0;
+        PositionDao.setPosition(id,position,idPositionWarriorAdversery);
     }
 
     public String getPosition() {
         return position;
     }
 
+
+
     public void setPosition(String position) {
         this.position = position;
     }
+
+    public int getIdPositionWarriorAdversery(){
+        return idPositionWarriorAdversery;
+    }
+
+    public void setIdPositionWarriorAdversery(int idPositionWarriorAdversery){
+        this.idPositionWarriorAdversery = idPositionWarriorAdversery;
+    }
+
+
 
     int getCountOfLevel() {
         return Integer.parseInt(position.substring(position.split("\\.").length));
@@ -57,6 +80,21 @@ public class Position {
         }
 
         return position.split("\\.")[lvl - 1];
+    }
+
+    public void deleteWrongPosition(Position position, String stringPosition){
+        position.exit();
+        setPosition(stringPosition);
+    }
+
+    public String getLastPosition(){
+
+        String[] str;
+
+        str = position.split("\\.");
+
+        return str[str.length - 1];
+
     }
 
 }

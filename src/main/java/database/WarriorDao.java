@@ -6,18 +6,29 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.google.gson.Gson;
 import org.telegram.telegrambots.meta.api.objects.User;
+import scanerio.Position;
 import warrior.*;
+import database.PositionDao;
 
 import javax.print.Doc;
+import java.util.ArrayList;
 
 
 public class WarriorDao {
 
+    PositionDao positionDao = new PositionDao();
+
 
     static public void saveNewWarrior(Warrior warrior) {
         MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Warrior");
-        Document newWarrior = convertToDocument(warrior);
-        collection.insertOne(newWarrior);
+        Document filter = new Document();
+        filter.append("id", warrior.getId());
+        if (collection.find(filter).first() == null) {
+            Document newWarrior = convertToDocument(warrior);
+            collection.insertOne(newWarrior);
+        } else {
+            updateWarrior(warrior);
+        }
     }
 
     static public Warrior getWarrior(int id) {
@@ -28,12 +39,28 @@ public class WarriorDao {
         return warrior;
     }
 
-    static public void updateWarrior(Warrior warrior) {
+    public Position getPositionWarriorAdversary(Position position){
+        MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Position");
+        String positionString = position.getPosition();
+        positionDao.setPosition(position.getId(),"any position", position.getIdPositionWarriorAdversery());
+        Document filter = new Document("position",positionString);
+        Document document = collection.find(filter).first();
+        positionDao.setPosition(position.getId(),positionString, position.getIdPositionWarriorAdversery());
+        Position positionWarriorAdversary = positionDao.getPosition(document.getInteger("id"));
+
+        return  positionWarriorAdversary;
+
+    }
+
+
+
+
+
+
+    static private void updateWarrior(Warrior warrior) {
         MongoCollection<Document> collection = ConnectionDAO.getMongoDatabase().getCollection("Warrior");
         Document filter = new Document("id", warrior.getId());
-        Document document = collection.find(filter).first();
-        Warrior newWarrior = convertToWarrior(document);
-        Document updated = convertToDocument(newWarrior);
+        Document updated = convertToDocument(warrior);
         collection.updateOne(filter, new Document("$set", updated));
         ConnectionDAO.closeDatabase();
     }
@@ -73,10 +100,18 @@ public class WarriorDao {
     public static void main(String[] args) {
 
 
-        Warrior warrior1 = new Wizard();
-        saveNewWarrior(warrior1);
+        Warrior warrior = getWarrior(433847754);
 
+        warrior.setLevel(5);
+
+        saveNewWarrior(warrior);
+
+        System.out.println(warrior.getLevel());
 
     }
+
+
+
+
 
 }

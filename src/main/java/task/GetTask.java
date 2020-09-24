@@ -1,8 +1,11 @@
 package task;
 
-import java.util.Scanner;
+import javafx.geometry.Pos;
+import scanerio.Position;
 
-public class Task {
+public class GetTask {
+
+    Position position = new Position();
 
     int a = (int) (Math.random() * 10);
     int b = (int) (Math.random() * 10);
@@ -33,24 +36,28 @@ public class Task {
 
     }
 
-    public String getTaskLevel2 (){
+
+    public String getTaskLevel2() {
         if (Math.random() > 0.5) {
 
             answer = a * b;
 
-            return a + " * " + b + " = ?";
+            return a + " \\* " + b + " = ?";
 
-        }
-        else {
+        } else {
             if (b > a) {
                 int c;
                 c = b;
                 b = a;
                 a = c;
             }
-            if ( a % b != 0  )
 
+            if (b == 0)
+                b = 1;
+
+            if (a % b != 0)
                 a *= b;
+
 
             answer = a / b;
 
@@ -61,37 +68,51 @@ public class Task {
     }
 
 
-    public String getTaskLevel3(){
-
+    public String getTaskLevel3() {
 
 
         if (Math.random() < 0.3) {
 
             answer = a * b * c;
 
-            return a + " * " + b + " * " + c + " = ?";
+            return a + " \\* " + b + " \\* " + c + " = ?";
 
         }
-        if(Math.random() < 0.6){
-                a *= c;
-                b *= c;
+        if (Math.random() < 0.6) {
+
+            if (c == 0)
+                c = 1;
+
+            a *= c;
+            b *= c;
+
 
             answer = a * b / c;
 
-            return a + " * " + b + " / " + c + " = ?";
+            return a + " \\* " + b + " / " + c + " = ?";
         }
 
-        if ( a % b != 0  )
+        if (a % b != 0)
             a *= b;
 
-        return a + " / " + b + " * " + c + " = ?";
+        if (b == 0)
+            b = 1;
 
+        answer = a / b * c;
+
+        return a + " / " + b + " \\* " + c + " = ?";
     }
 
-    public boolean checkAnswer(int answerUser) {
-        if (answer == answerUser)
-            return true;
-        return false;
+
+    public String toStringAnswer() {
+
+        return Integer.toString(answer);
+    }
+
+
+    public void saveAnswer(Position position, String answer) {
+
+        position.goAhead(answer);
     }
 
 

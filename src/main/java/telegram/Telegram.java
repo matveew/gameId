@@ -20,7 +20,6 @@ public class Telegram {
 
 
     static public void sendMessage(Position position, String message) {
-
         bot.sendMessage(message, position.getId());
     }
 

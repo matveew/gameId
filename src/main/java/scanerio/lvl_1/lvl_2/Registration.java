@@ -26,6 +26,7 @@ public class Registration implements Interaction {
                 break;
 
             default:
+
                 Telegram.sendButtonsMessage(position, "Save your type", "Back", "Choose an option:");
                 PositionDao.setPosition(position);
                 break;
